@@ -16,7 +16,7 @@
     "idb": "^7.1.1"
   },
   "devDependencies": {
-    "@types/node": "^20.4.3",
+    "@types/node": "^20.4.4",
     "esbuild": "^0.18.15",
     "esbuild-plugin-glob": "^2.2.2",
     "eslint-config-ethang": "^6.7.0",
