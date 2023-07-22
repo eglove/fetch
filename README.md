@@ -11,14 +11,44 @@ Prevent refetching the same data to the browser based on a cache interval. Does 
 ## Use
 
 ```typescript
+export const requests = {
+    getTodos(id: number) {
+        return new Request(`https://jsonplaceholder.typicode.com/todos/${1}`);
+    }
+}
+```
+
+Cache for request will expire on an interval, and pull from cache until that time has expired when it will make a new network request.
+
+```typescript
 import { fetcher } from "@ethang/fetch";
 
 const response = await fetcher({
     cacheInterval: 30, // Number of seconds between fetches
-    request: new Request('https://jsonplaceholder.typicode.com/todos/1'),
+    request: requests.getTodos(1),
 });
 
 const data = await response.json();
 ```
 
+Return cache only.
+
+```typescript
+import { getCachedResponse } from "@ethang/fetch";
+
+await getCachedResponse(request.getTodos(1));
+```
+
+Remove request from cache:
+
+```typescript
+import { cacheBust } from "@ethang/fetch";
+
+await fetch('/update-todo/1', {
+    method: 'POST',
+    ...
+})
+
+await cacheBust(request.getTodos(1))
+```
 
