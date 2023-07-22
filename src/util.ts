@@ -25,5 +25,9 @@ export async function isExpired(requestKey: string): Promise<boolean> {
     .objectStore(DB_NAME)
     .get(requestKey)) as RequestMeta | undefined;
 
-  return Boolean(cachedMeta && new Date() >= cachedMeta.expires);
+  if (cachedMeta === undefined) {
+    return true;
+  }
+
+  return new Date() >= cachedMeta.expires;
 }
