@@ -49,3 +49,9 @@ export async function getCachedResponse(
   const cache = await caches.open('cache');
   return cache.match(request);
 }
+
+export async function cacheBust(request: Request): Promise<boolean> {
+  // eslint-disable-next-line no-undef
+  const cache = await caches.open('cache');
+  return cache.delete(request);
+}
