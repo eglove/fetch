@@ -41,3 +41,11 @@ export const fetcher = async ({
 
   return cache.match(request);
 };
+
+export async function getCachedResponse(
+  request: Request,
+): Promise<Response | undefined> {
+  // eslint-disable-next-line no-undef
+  const cache = await caches.open('cache');
+  return cache.match(request);
+}
