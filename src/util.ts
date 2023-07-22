@@ -6,7 +6,7 @@ export type RequestMeta = {
   lastFetched: Date;
 };
 
-const DB_NAME = 'requests';
+export const DB_NAME = 'requests';
 
 export const getRequestDatabase = async (): Promise<IDBPDatabase<unknown>> => {
   return openDB(DB_NAME, 1, {

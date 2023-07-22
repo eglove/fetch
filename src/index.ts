@@ -1,11 +1,9 @@
-import { getRequestDatabase, isExpired } from './util';
+import {DB_NAME, getRequestDatabase, isExpired} from './util';
 
 type FetcherOptions = {
   cacheInterval?: number;
   request: Request;
 };
-
-const DB_NAME = 'requests';
 
 export const fetcher = async ({
   request,
