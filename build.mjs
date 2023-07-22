@@ -7,7 +7,7 @@ import { execSync } from 'child_process';
 await rimraf('dist');
 
 await esbuild({
-  bundle: false,
+  bundle: true,
   entryPoints: ['src/*.ts'],
   loader: { '.ts': 'ts' },
   minify: true,
