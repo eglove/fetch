@@ -11,7 +11,7 @@ Prevent refetching the same data to the browser based on a cache interval. Does 
 ## Use
 
 ```typescript
-import {fetcher } from "@ethang/fetch";
+import { fetcher } from "@ethang/fetch";
 
 const response = await fetcher({
     cacheInterval: 30, // Number of seconds between fetches
