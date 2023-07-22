@@ -1,0 +1,23 @@
+{
+  "name": "fetch",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.4.2",
+    "eslint-config-ethang": "^6.5.1",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@hyper-fetch/core": "^5.6.0",
+    "esbuild": "^0.18.15",
+    "esbuild-plugin-glob": "^2.2.2",
+    "rimraf": "^5.0.1"
+  }
+}
