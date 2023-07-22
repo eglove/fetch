@@ -23,4 +23,4 @@ fs.copyFileSync(
   'dist/package.json',
 )
 
-execSync('tsc --project tsconfig.json && cd dist && npm public --access public && cd ..')
+execSync('tsc --project tsconfig.json && cd dist && npm publish --access public && cd ..')
