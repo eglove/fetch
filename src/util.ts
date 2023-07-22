@@ -3,7 +3,6 @@ import { IDBPDatabase, openDB } from 'idb';
 export type RequestMeta = {
   expires: Date;
   key: string;
-  lastFetched: Date;
 };
 
 export const DB_NAME = 'requests';

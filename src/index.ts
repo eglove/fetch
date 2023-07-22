@@ -1,4 +1,4 @@
-import {DB_NAME, getRequestDatabase, isExpired} from './util';
+import { DB_NAME, getRequestDatabase, isExpired, RequestMeta } from './util';
 
 type FetcherOptions = {
   cacheInterval?: number;
@@ -30,10 +30,13 @@ export const fetcher = async ({
 
   await Promise.all([
     cache.add(request),
-    database.transaction(DB_NAME, 'readwrite').objectStore(DB_NAME).put({
-      expires,
-      key: requestKey,
-    }),
+    database
+      .transaction(DB_NAME, 'readwrite')
+      .objectStore(DB_NAME)
+      .put({
+        expires,
+        key: requestKey,
+      } as RequestMeta),
   ]);
 
   return cache.match(request);
