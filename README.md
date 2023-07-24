@@ -13,7 +13,7 @@ Prevent refetching the same data to the browser based on a cache interval. Does 
 ```typescript
 export const requests = {
     getTodos(id: number) {
-        return new Request(`https://jsonplaceholder.typicode.com/todos/${1}`);
+        return new Request(`https://jsonplaceholder.typicode.com/todos/${id}`);
     }
 }
 ```
