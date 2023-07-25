@@ -11,8 +11,8 @@ dependencies:
 
 devDependencies:
   '@types/node':
-    specifier: ^20.4.4
-    version: 20.4.4
+    specifier: ^20.4.5
+    version: 20.4.5
   esbuild:
     specifier: ^0.18.16
     version: 0.18.16
@@ -20,8 +20,8 @@ devDependencies:
     specifier: ^2.2.2
     version: 2.2.2(esbuild@0.18.16)
   eslint-config-ethang:
-    specifier: ^6.7.1
-    version: 6.7.1(eslint@8.45.0)(prettier@3.0.0)(tailwindcss@3.3.3)(typescript@5.1.6)
+    specifier: ^6.7.2
+    version: 6.7.2(eslint@8.45.0)(prettier@3.0.0)(tailwindcss@3.3.3)(typescript@5.1.6)
   rimraf:
     specifier: ^5.0.1
     version: 5.0.1
@@ -422,8 +422,8 @@ packages:
     resolution: {integrity: sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==}
     dev: true
 
-  /@types/node@20.4.4:
-    resolution: {integrity: sha512-CukZhumInROvLq3+b5gLev+vgpsIqC2D0deQr/yS1WnxvmYLlJXZpaQrQiseMY+6xusl79E04UjWoqyr+t1/Ew==}
+  /@types/node@20.4.5:
+    resolution: {integrity: sha512-rt40Nk13II9JwQBdeYqmbn2Q6IVTA5uPhvSO+JVqdXw/6/4glI6oR9ezty/A9Hg5u7JH4OmYmuQ+XvjKm0Datg==}
     dev: true
 
   /@types/normalize-package-data@2.4.1:
@@ -1277,8 +1277,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /eslint-config-ethang@6.7.1(eslint@8.45.0)(prettier@3.0.0)(tailwindcss@3.3.3)(typescript@5.1.6):
-    resolution: {integrity: sha512-MP957aa86stX0VeW9Ld5K1AX5e5aiA7++pwq0lNyzv0LTFfX4Z/9T4/B/QKKnhHq02uePAF7AxWbBu3ioJcmmg==}
+  /eslint-config-ethang@6.7.2(eslint@8.45.0)(prettier@3.0.0)(tailwindcss@3.3.3)(typescript@5.1.6):
+    resolution: {integrity: sha512-s35L/d7/BYhWg8h3imM6ZAU9gbikz9fJ4Na9H0sIj/2F7UfEllBRsutyCo88IxKxCUYEKLxe0Awi6IxwQwSC6w==}
     peerDependencies:
       eslint: ^8.44.0
       prettier: ^3.0.0
@@ -1302,7 +1302,7 @@ packages:
       eslint-plugin-sort-keys-fix: 1.1.2
       eslint-plugin-tailwindcss: 3.13.0(tailwindcss@3.3.3)
       eslint-plugin-typescript-sort-keys: 2.3.0(@typescript-eslint/parser@6.2.0)(eslint@8.45.0)(typescript@5.1.6)
-      eslint-plugin-unicorn: 48.0.0(eslint@8.45.0)
+      eslint-plugin-unicorn: 48.0.1(eslint@8.45.0)
       eslint-plugin-unused-imports: 3.0.0(@typescript-eslint/eslint-plugin@6.2.0)(eslint@8.45.0)
       prettier: 3.0.0
       typescript: 5.1.6
@@ -1519,8 +1519,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-unicorn@48.0.0(eslint@8.45.0):
-    resolution: {integrity: sha512-8fk/v3p1ro34JSVDBEmtOq6EEQRpMR0iTir79q69KnXFZ6DJyPkT3RAi+ZoTqhQMdDSpGh8BGR68ne1sP5cnAA==}
+  /eslint-plugin-unicorn@48.0.1(eslint@8.45.0):
+    resolution: {integrity: sha512-FW+4r20myG/DqFcCSzoumaddKBicIPeFnTrifon2mWIzlfyvzwyqZjqVP7m4Cqr/ZYisS2aiLghkUWaPg6vtCw==}
     engines: {node: '>=16'}
     peerDependencies:
       eslint: '>=8.44.0'
