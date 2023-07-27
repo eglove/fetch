@@ -20,8 +20,8 @@ devDependencies:
     specifier: ^2.2.2
     version: 2.2.2(esbuild@0.18.17)
   eslint-config-ethang:
-    specifier: ^6.8.0
-    version: 6.8.0(eslint@8.45.0)(prettier@3.0.0)(tailwindcss@3.3.3)(typescript@5.1.6)
+    specifier: ^7.0.0
+    version: 7.0.0(eslint@8.45.0)(prettier@3.0.0)(tailwindcss@3.3.3)(typescript@5.1.6)
   rimraf:
     specifier: ^5.0.1
     version: 5.0.1
@@ -1277,8 +1277,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /eslint-config-ethang@6.8.0(eslint@8.45.0)(prettier@3.0.0)(tailwindcss@3.3.3)(typescript@5.1.6):
-    resolution: {integrity: sha512-9mUV49CBaREiIuiMOqYyrPtKuj2cBNoKAHyc8qvdtu80X08MHPXOLT8CeqCOFW2dTa2G0wQfgCf8qxMFCw2emw==}
+  /eslint-config-ethang@7.0.0(eslint@8.45.0)(prettier@3.0.0)(tailwindcss@3.3.3)(typescript@5.1.6):
+    resolution: {integrity: sha512-9jcsVuaUM4mmrb5H1sFgrogFOKwAGN0gyH4pFS7ix9FuqAuPvqLXW59Ki04D1E+NsNAPyEnfymbxWUqGMyrkZg==}
     peerDependencies:
       eslint: ^8.44.0
       prettier: ^3.0.0
