@@ -10,6 +10,11 @@ export const fetcher = async ({
   cacheInterval,
 }: FetcherOptions): Promise<Response | undefined> => {
   // eslint-disable-next-line no-undef
+  if (typeof window === 'undefined') {
+    return fetch(request);
+  }
+
+  // eslint-disable-next-line no-undef
   const cache = await caches.open('cache');
   const requestKey = getRequestKey(request);
   const database = await getRequestDatabase();
