@@ -11,9 +11,7 @@ export const fetcher = async ({
 }: FetcherOptions): Promise<Response | undefined> => {
   // eslint-disable-next-line no-undef
   const cache = await caches.open('cache');
-  const requestKey = `${request.url}${request.headers.get('Vary')}${
-    request.method
-  }`;
+  const requestKey = getRequestKey(request);
   const database = await getRequestDatabase();
 
   if (await isExpired(requestKey)) {
@@ -41,6 +39,10 @@ export const fetcher = async ({
 
   return cache.match(request);
 };
+
+export function getRequestKey(request: Request): string {
+  return `${request.url}${request.headers.get('Vary') ?? ''}${request.method}`;
+}
 
 export async function getCachedResponse(
   request: Request,
