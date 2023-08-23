@@ -11,8 +11,8 @@ dependencies:
 
 devDependencies:
   '@types/node':
-    specifier: ^20.5.3
-    version: 20.5.3
+    specifier: ^20.5.4
+    version: 20.5.4
   esbuild:
     specifier: ^0.19.2
     version: 0.19.2
@@ -20,8 +20,8 @@ devDependencies:
     specifier: ^2.2.2
     version: 2.2.2(esbuild@0.19.2)
   eslint-config-ethang:
-    specifier: ^8.1.4
-    version: 8.1.4(eslint@8.47.0)(prettier@3.0.2)(tailwindcss@3.3.3)(typescript@5.1.6)
+    specifier: ^8.2.0
+    version: 8.2.0(eslint@8.47.0)(prettier@3.0.2)(tailwindcss@3.3.3)(typescript@5.1.6)
   rimraf:
     specifier: ^5.0.1
     version: 5.0.1
@@ -415,8 +415,8 @@ packages:
     resolution: {integrity: sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==}
     dev: true
 
-  /@types/node@20.5.3:
-    resolution: {integrity: sha512-ITI7rbWczR8a/S6qjAW7DMqxqFMjjTo61qZVWJ1ubPvbIQsL5D/TvwjYEalM8Kthpe3hTzOGrF2TGbAu2uyqeA==}
+  /@types/node@20.5.4:
+    resolution: {integrity: sha512-Y9vbIAoM31djQZrPYjpTLo0XlaSwOIsrlfE3LpulZeRblttsLQRFRlBAppW0LOxyT3ALj2M5vU1ucQQayQH3jA==}
     dev: true
 
   /@types/normalize-package-data@2.4.1:
@@ -1229,8 +1229,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /eslint-config-ethang@8.1.4(eslint@8.47.0)(prettier@3.0.2)(tailwindcss@3.3.3)(typescript@5.1.6):
-    resolution: {integrity: sha512-rgUYfj5P40Npi0/9oOu4VJZtmw/xz+iT6sKhWjYF8iPXHkpuyVUPnMU5ErQBpg+OttAS9FVwoeUxXjEAib/tFA==}
+  /eslint-config-ethang@8.2.0(eslint@8.47.0)(prettier@3.0.2)(tailwindcss@3.3.3)(typescript@5.1.6):
+    resolution: {integrity: sha512-cFc/Kdw3xOLfmtA3dckhkezWu5ML7fLiM/8e6ovKkze8sq+txFkz4DtTqgKu6ZRaLwnEXHGkkDGkvHh7GLIqCw==}
     peerDependencies:
       eslint: ^8.44.0
       prettier: ^3.0.0
