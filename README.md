@@ -1,6 +1,6 @@
-# Vanilla JS Fetcher with Client Side Cache
+# Vanilla JS Fetcher and API Builder with Client Side Cache
 
-Prevent refetching the same data to the browser based on a cache interval. Does not work on a server.
+Centralize your API, keep it flexible to escape hatches. Prevent refetching the same data to the browser based on a cache interval. (Cache does not work on a server.)
 
 ## FAQ
 
@@ -16,25 +16,30 @@ Prevent refetching the same data to the browser based on a cache interval. Does 
 ## Use
 
 ```typescript
-export const requests = {
-    getTodos(id: number) {
-        return new Request(`https://jsonplaceholder.typicode.com/todos/${id}`);
-    }
-}
+export const api = new Api({
+    baseUrl: 'https://jsonplaceholder.typicode.com',
+    requests: {
+        todos: {
+            path: 'todos/:id',
+            zodSchema: todoSchema,
+        },
+    },
+})
 ```
 
 Cache for request will expire on an interval, and pull from cache until that time has expired when it will make a new network request.
 
 ```typescript
-import { fetcher } from "@ethang/fetch";
-
-const response = await fetcher({
-    cacheInterval: 30, // Number of seconds between fetches
-    request: requests.getTodos(1),
+const { data, isSuccess, errors } = await api.fetch('todos', {
+    isCached: true,
+    cacheInterval: 30,
+    pathVariables: {
+        id: 1,
+    },
 });
-
-const data = await response.json();
 ```
+
+### WARNING: The following methods have not been integrated into Api
 
 Return cache only.
 
