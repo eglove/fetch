@@ -1,4 +1,4 @@
-import { isEmpty, isNil, merge } from 'lodash';
+import { cloneDeep, isEmpty, isNil, merge } from 'lodash';
 import { z, ZodType } from 'zod';
 
 import { fetcher } from './fetcher';
@@ -40,11 +40,7 @@ type FetchReturn<DataType extends ZodType> = {
   isSuccess: boolean;
 };
 
-type SearchParameters =
-  | [string, unknown][]
-  | Record<string, unknown>
-  | string
-  | URLSearchParams;
+type SearchParameters = Record<string, string | number>;
 
 type RequestMap<RequestType, SchemaType extends ZodType> = Map<
   keyof RequestType,
@@ -107,12 +103,12 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
 
     // Append search params
     const searchParameters = merge(
-      requestDefaults.searchParams,
+      cloneDeep(requestDefaults.searchParams),
       options?.searchParams,
     );
     if (!isNil(searchParameters) && !isEmpty(searchParameters)) {
       for (const [key, value] of Object.entries(searchParameters)) {
-        urlObject.searchParams.append(key, value);
+        urlObject.searchParams.append(key, String(value));
       }
     }
 
@@ -120,7 +116,7 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
     const newRequest = new Request(
       urlObject,
       merge(this.requestOptions, [
-        requestDefaults.requestOptions,
+        cloneDeep(requestDefaults.requestOptions),
         options?.requestOptions,
       ]),
     );
