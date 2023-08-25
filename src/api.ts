@@ -1,7 +1,7 @@
 import { cloneDeep, isEmpty, isNil, merge } from 'lodash';
 import { z, ZodType } from 'zod';
 
-import { fetcher } from './fetcher';
+import { cacheBust, fetcher, getCachedResponse } from './fetcher';
 
 type ApiOptions<RequestType extends Record<string, CreateRequest<ZodType>>> =
   GlobalOptions & {
@@ -19,6 +19,7 @@ type CreateRequest<SchemaType extends ZodType> = Omit<
   GlobalOptions,
   'baseUrl'
 > & {
+  cacheId?: string;
   path: string | URL;
   pathVariables?: UrlFriendlyRecord;
   searchParams?: UrlFriendlyRecord;
@@ -29,6 +30,7 @@ type FetchOptions<SchemaType extends ZodType> = Omit<
   GlobalOptions,
   'baseUrl'
 > & {
+  cacheId?: string;
   pathVariables?: UrlFriendlyRecord;
   searchParams?: UrlFriendlyRecord;
   zodSchema?: SchemaType;
@@ -53,6 +55,7 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
   private readonly isCached?: boolean = false;
   private readonly cacheInterval?: number;
   private readonly baseUrl?: string;
+  public readonly madeRequests: Map<string, Request> = new Map();
 
   constructor({
     requestOptions,
@@ -70,6 +73,24 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
       const request = requests[requestInitKey];
 
       this.requests.set(requestInitKey, request);
+    }
+  }
+
+  public async cacheBust(cacheId: string): Promise<boolean | undefined> {
+    const request = this.madeRequests.get(cacheId);
+
+    if (!isNil(request)) {
+      return cacheBust(request);
+    }
+  }
+
+  public async getCachedResponse(
+    cacheId: string,
+  ): Promise<Response | undefined> {
+    const request = this.madeRequests.get(cacheId);
+
+    if (!isNil(request)) {
+      return getCachedResponse(request);
     }
   }
 
@@ -119,6 +140,13 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
         cloneDeep(requestDefaults.requestOptions),
         options?.requestOptions,
       ]),
+    );
+    const defaultCacheId = `${newRequest.url}${newRequest.method}${
+      newRequest.headers.get('Vary') ?? ''
+    }`;
+    this.madeRequests.set(
+      requestDefaults.cacheId ?? options?.cacheId ?? defaultCacheId,
+      newRequest,
     );
 
     try {

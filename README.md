@@ -56,6 +56,7 @@ new Api({
         todos: {
             cacheInterval?: number;
             isCached?: boolean;
+            cacheId?: string;
             requestOptions?: RequestInit; // Standard request options for fetch
             path: string | URL;
             pathVariables?: Record<string, string | number>;
@@ -68,6 +69,7 @@ new Api({
 api.fetch('todos', {
     cacheInterval?: number;
     isCached?: boolean;
+    cacheId?: string;
     requestOptions?: RequestInit; // Standard request options for fetch
     pathVariables?: Record<string, string | number>;
     searchParams?: Record<string, string | number>;
@@ -75,14 +77,12 @@ api.fetch('todos', {
 })
 ```
 
-### WARNING: The following methods have not been integrated into Api
+### Other methods
 
 Return cache only.
 
 ```typescript
-import { getCachedResponse } from "@ethang/fetch";
-
-await getCachedResponse(request.getTodos(1));
+await api.getCachedResponse(getTodosCacheId);
 ```
 
 Remove request from cache:
@@ -90,11 +90,14 @@ Remove request from cache:
 ```typescript
 import { cacheBust } from "@ethang/fetch";
 
-await fetch('/update-todo/1', {
-    method: 'POST',
-    ...
+await api.fetch('updateTodo', {
+    pathVariables: {
+        id: 1,
+    }
 })
 
-await cacheBust(request.getTodos(1))
+api.cacheBust(todos)
+
+await cacheBust(getTodosCacheId)
 ```
 
