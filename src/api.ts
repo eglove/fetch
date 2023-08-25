@@ -42,7 +42,7 @@ type FetchReturn<DataType extends ZodType> = {
   isSuccess: boolean;
 };
 
-type UrlFriendlyRecord = Record<string, string | number>;
+type UrlFriendlyRecord = Record<string, string | number | undefined>;
 
 type RequestMap<RequestType, SchemaType extends ZodType> = Map<
   keyof RequestType,
