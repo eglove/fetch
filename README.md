@@ -39,7 +39,7 @@ const { data, isSuccess, errors } = await api.fetch('todos', {
 });
 ```
 
-### Overrrides
+### Overrides
 
 Most options can be overwritten at a lower level. Such as using a different cache interval, pathVariables, or request
 options different from what is set up in the global object. Keep in mind that this merges options, and overrides 
