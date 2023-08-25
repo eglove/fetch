@@ -38,7 +38,11 @@ describe('api setup', () => {
       },
       isSuccess: true,
     };
-    const mockFetch = vi.fn().mockResolvedValue(expectedResult);
+    const mockFetch = vi.fn().mockResolvedValue({
+      async json() {
+        return expectedResult.data;
+      },
+    });
 
     const todosApi = new Api({
       baseUrl: 'https://jsonplaceholder.typicode.com',
@@ -61,8 +65,9 @@ describe('api setup', () => {
     );
 
     // eslint-disable-next-line functional/immutable-data
-    todosApi.fetch = mockFetch;
+    globalThis.fetch = mockFetch;
     const result = await todosApi.fetch('todos');
+    expect(mockFetch).toHaveBeenCalledOnce();
     expect(result).toStrictEqual(expectedResult);
   });
 });
