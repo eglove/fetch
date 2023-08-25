@@ -21,8 +21,8 @@ type CreateRequest<SchemaType extends ZodType> = Omit<
 > & {
   cacheId?: string;
   path: string | URL;
-  pathVariables?: UrlFriendlyRecord;
-  searchParams?: UrlFriendlyRecord;
+  pathVariables?: Record<string, string | number>;
+  searchParams?: Record<string, string | number | undefined>;
   zodSchema: SchemaType;
 };
 
@@ -31,8 +31,8 @@ type FetchOptions<SchemaType extends ZodType> = Omit<
   'baseUrl'
 > & {
   cacheId?: string;
-  pathVariables?: UrlFriendlyRecord;
-  searchParams?: UrlFriendlyRecord;
+  pathVariables?: Record<string, string | number>;
+  searchParams?: Record<string, string | number | undefined>;
   zodSchema?: SchemaType;
 };
 
@@ -41,8 +41,6 @@ type FetchReturn<DataType extends ZodType> = {
   errors?: string[];
   isSuccess: boolean;
 };
-
-type UrlFriendlyRecord = Record<string, string | number | undefined>;
 
 type RequestMap<RequestType, SchemaType extends ZodType> = Map<
   keyof RequestType,
@@ -116,9 +114,7 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
 
     if (!isNil(pathVariables) && !isEmpty(pathVariables)) {
       for (const [key, value] of Object.entries(pathVariables)) {
-        if (!isNil(value)) {
-          url = url.replace(`:${key}`, String(value));
-        }
+        url = url.replace(`:${key}`, String(value));
       }
     }
 
@@ -131,7 +127,9 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
     );
     if (!isNil(searchParameters) && !isEmpty(searchParameters)) {
       for (const [key, value] of Object.entries(searchParameters)) {
-        urlObject.searchParams.append(key, String(value));
+        if (!isNil(value)) {
+          urlObject.searchParams.append(key, String(value));
+        }
       }
     }
 

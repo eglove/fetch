@@ -28,7 +28,7 @@ describe('api setup', () => {
           },
           searchParams: {
             orderBy: 'name',
-            sortby: 'date',
+            sortBy: 'date',
           },
           zodSchema: z.string(),
         },
@@ -69,6 +69,9 @@ describe('api setup', () => {
           path: 'todos/:id',
           pathVariables: {
             id: 1,
+          },
+          searchParams: {
+            hey: undefined,
           },
           zodSchema: z.object({
             completed: z.boolean(),
