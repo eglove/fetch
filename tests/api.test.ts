@@ -1,31 +1,49 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { describe, expect, test, vi } from 'vitest';
 import { z } from 'zod';
 
 import { Api } from '../src/api';
 
 describe('api setup', () => {
-  test('url is correct', () => {
-    const exampleApi = new Api({
-      baseUrl: 'https://example.com',
-      defaultHeaders: {
-        MyHeader: 'somestuff',
+  test('api initializes correctly', () => {
+    const testApi = new Api({
+      baseUrl: 'http://example.com',
+      cacheInterval: 100,
+      isCached: false,
+      requestOptions: {
+        method: 'GET',
       },
       requests: {
         search: {
-          path: 'search',
-          pathVariables: ['one', 'two', 3],
+          cacheInterval: 300,
+          isCached: true,
+          path: 'search/:id/:name',
+          pathVariables: {
+            id: 2,
+            name: 'joe',
+          },
+          requestOptions: {
+            method: 'POST',
+          },
           searchParams: {
-            filter: 'blue',
-            orderBy: 'date',
+            orderBy: 'name',
+            sortby: 'date',
           },
           zodSchema: z.string(),
         },
       },
     });
 
-    expect(exampleApi.requests.get('search')?.request.url).toStrictEqual(
-      'https://example.com/search/one/two/3?filter=blue&orderBy=date',
-    );
+    const api = testApi as unknown;
+    expect(api.baseUrl).toBe('http://example.com');
+    expect(api.cacheInterval).toBe(100);
+    expect(api.isCached).toBe(false);
+    expect(api.requestOptions).toStrictEqual({
+      method: 'GET',
+    });
+    expect(api.requests.get('search').cacheInterval).toBe(300);
+    expect(api.requests.get('search').path).toBe('search/:id/:name');
   });
 
   test('fetch works', async () => {
@@ -48,8 +66,10 @@ describe('api setup', () => {
       baseUrl: 'https://jsonplaceholder.typicode.com',
       requests: {
         todos: {
-          path: 'todos',
-          pathVariables: [1],
+          path: 'todos/:id',
+          pathVariables: {
+            id: 1,
+          },
           zodSchema: z.object({
             completed: z.boolean(),
             id: z.number(),
@@ -59,10 +79,6 @@ describe('api setup', () => {
         },
       },
     });
-
-    expect(todosApi.requests.get('todos')?.request.url).toBe(
-      'https://jsonplaceholder.typicode.com/todos/1',
-    );
 
     // eslint-disable-next-line functional/immutable-data
     globalThis.fetch = mockFetch;

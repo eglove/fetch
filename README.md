@@ -2,6 +2,11 @@
 
 Prevent refetching the same data to the browser based on a cache interval. Does not work on a server.
 
+## FAQ
+
+1. Is this 0kb GZipped and blazingly fast? **No**
+2. Should I use this in my production app? **Probably not**
+
 ## Install
 
 ```shell
