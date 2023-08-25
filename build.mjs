@@ -8,7 +8,7 @@ const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
 packageJson.peerDependencies = packageJson.dependencies;
 
-fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 2), 'utf8');
+fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 2) + '\n', 'utf8');
 
 await rimraf('dist');
 
