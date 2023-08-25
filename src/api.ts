@@ -157,20 +157,3 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
     }
   }
 }
-
-const api = new Api({
-  baseUrl: 'http://localhost:3000',
-  requests: {
-    search: {
-      path: 'search/:id',
-      zodSchema: z.string(),
-    },
-  },
-});
-
-api.fetch('search', {
-  pathVariables: {
-    id: 1,
-  },
-  requestOptions: {},
-});
