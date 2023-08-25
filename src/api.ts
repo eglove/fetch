@@ -13,6 +13,7 @@ type SearchParameters =
   | URLSearchParams;
 
 type FetchOptions = {
+  pathVariables?: unknown[];
   requestOptions?: RequestInit;
   searchParameters?: SearchParameters;
 };
@@ -20,6 +21,7 @@ type FetchOptions = {
 type CreateRequest<SchemaType extends ZodType> = {
   options?: RequestInit;
   path: string | URL;
+  pathVariables?: unknown[];
   searchParams?: SearchParameters;
   zodSchema: SchemaType;
 };
@@ -30,12 +32,14 @@ type ApiOptions<RequestType extends Record<string, CreateRequest<ZodType>>> = {
   requests: RequestType;
 };
 
+type RequestMap<RequestType> = Map<
+  keyof RequestType,
+  { request: Request; zodSchema: ZodSchema }
+>;
+
 export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
   private readonly defaultHeaders?: HeadersInit;
-  public readonly requests: Map<
-    keyof RequestType,
-    { request: Request; zodSchema: ZodSchema }
-  > = new Map();
+  public readonly requests: RequestMap<RequestType> = new Map();
 
   constructor({ defaultHeaders, baseUrl, requests }: ApiOptions<RequestType>) {
     let baseUrlObject: URL | undefined;
@@ -48,7 +52,11 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
     for (const requestInitKey of Object.keys(requests)) {
       const request = requests[requestInitKey];
 
-      const requestUrl = new URL(request.path.toString(), baseUrlObject);
+      const requestUrl = this.mergePathVariables(
+        new URL(request.path.toString(), baseUrlObject),
+        request.pathVariables,
+      );
+
       const searchParameters = this.buildSearchParameters(request.searchParams);
 
       for (const [key, value] of searchParameters) {
@@ -72,7 +80,7 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
       throw new Error('Request not found');
     }
 
-    const url = this.getRequestUrl(name, options);
+    const url = this.getRequestUrl(requestObject.request, options);
     const newRequest = new Request(url, {
       ...options?.requestOptions,
       headers: {
@@ -104,17 +112,12 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
     }
   }
 
-  private getRequestUrl(
-    name: keyof RequestType,
-    overrides?: FetchOptions,
-  ): string {
-    const requestObject = this.requests.get(name);
+  private getRequestUrl(request: Request, overrides?: FetchOptions): string {
+    const url = this.mergePathVariables(
+      new URL(request.url),
+      overrides?.pathVariables,
+    );
 
-    if (requestObject === undefined) {
-      throw new Error('Request not found');
-    }
-
-    const url = new URL(requestObject.request.url);
     // eslint-disable-next-line functional/immutable-data
     url.search = this.mergeSearchParameters(
       url.searchParams,
@@ -122,6 +125,17 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
     ).toString();
 
     return url.toString();
+  }
+
+  private mergePathVariables(url: URL, pathVariables?: unknown[]): URL {
+    let newUrl = url;
+    if (pathVariables) {
+      for (const value of pathVariables) {
+        newUrl = new URL(`${newUrl}/${value}`, newUrl);
+      }
+    }
+
+    return newUrl;
   }
 
   private mergeSearchParameters(
