@@ -26,17 +26,13 @@ type CreateRequest<SchemaType extends ZodType> = Omit<
   zodSchema: SchemaType;
 };
 
-type FetchOptions<SchemaType extends ZodType> = Omit<
-  GlobalOptions,
-  'baseUrl'
-> & {
+type FetchOptions = Omit<GlobalOptions, 'baseUrl'> & {
   cacheId?: string;
   pathVariables?: Record<string, string | number>;
   searchParams?: Record<string, string | number | undefined>;
-  zodSchema?: SchemaType;
 };
 
-type FetchReturn<DataType extends ZodType> = {
+export type FetchReturn<DataType extends ZodType> = {
   data?: z.output<DataType>;
   errors?: string[];
   isSuccess: boolean;
@@ -92,12 +88,9 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
     }
   }
 
-  public async fetch<
-    NameType extends keyof RequestType,
-    SchemaType extends ZodType,
-  >(
+  public async fetch<NameType extends keyof RequestType>(
     name: NameType,
-    options?: FetchOptions<SchemaType>,
+    options?: FetchOptions,
   ): Promise<FetchReturn<RequestType[NameType]['zodSchema']>> {
     const requestDefaults = this.requests.get(name);
 
@@ -161,8 +154,9 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
         request: newRequest,
       });
 
-      const schema = options?.zodSchema ?? requestDefaults.zodSchema;
-      const parsed = schema.safeParse(await response?.json());
+      const parsed = requestDefaults.zodSchema.safeParse(
+        await response?.json(),
+      );
 
       if (parsed.success) {
         return {
