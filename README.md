@@ -39,6 +39,42 @@ const { data, isSuccess, errors } = await api.fetch('todos', {
 });
 ```
 
+### Overrrides
+
+Most options can be overwritten at a lower level. Such as using a different cache interval, pathVariables, or request
+options different from what is set up in the global object. Keep in mind that this merges options, and overrides 
+duplicate values, but does not completely override all options.
+
+```typescript
+new Api({
+    baseUrl?: string;
+    cacheInterval?: number;
+    isCached?: boolean;
+    requestOptions?: RequestInit; // Standard request options for fetch
+    
+    requests: {
+        todos: {
+            cacheInterval?: number;
+            isCached?: boolean;
+            requestOptions?: RequestInit; // Standard request options for fetch
+            path: string | URL;
+            pathVariables?: Record<string, string | number>;
+            searchParams?: Record<string, string | number>;
+            zodSchema: SchemaType extends ZodSchema;
+        }
+    }
+})
+
+api.fetch('todos', {
+    cacheInterval?: number;
+    isCached?: boolean;
+    requestOptions?: RequestInit; // Standard request options for fetch
+    pathVariables?: Record<string, string | number>;
+    searchParams?: Record<string, string | number>;
+    zodSchema?: SchemaType extends ZodSchema;
+})
+```
+
 ### WARNING: The following methods have not been integrated into Api
 
 Return cache only.

@@ -20,8 +20,8 @@ type CreateRequest<SchemaType extends ZodType> = Omit<
   'baseUrl'
 > & {
   path: string | URL;
-  pathVariables?: Record<string, unknown>;
-  searchParams?: SearchParameters;
+  pathVariables?: UrlFriendlyRecord;
+  searchParams?: UrlFriendlyRecord;
   zodSchema: SchemaType;
 };
 
@@ -29,8 +29,8 @@ type FetchOptions<SchemaType extends ZodType> = Omit<
   GlobalOptions,
   'baseUrl'
 > & {
-  pathVariables?: Record<string, unknown>;
-  searchParams?: SearchParameters;
+  pathVariables?: UrlFriendlyRecord;
+  searchParams?: UrlFriendlyRecord;
   zodSchema?: SchemaType;
 };
 
@@ -40,7 +40,7 @@ type FetchReturn<DataType extends ZodType> = {
   isSuccess: boolean;
 };
 
-type SearchParameters = Record<string, string | number>;
+type UrlFriendlyRecord = Record<string, string | number>;
 
 type RequestMap<RequestType, SchemaType extends ZodType> = Map<
   keyof RequestType,
