@@ -5,7 +5,8 @@ Centralize your API, keep it flexible to escape hatches. Prevent refetching the 
 ## FAQ
 
 1. Is this 0kb GZipped and blazingly fast? **No**
-2. Should I use this in my production app? **Probably not**
+2. Is this well tested? **No**
+3. Should I use this in my production app? **No**
 
 ## Install
 
@@ -47,33 +48,33 @@ duplicate values, but does not completely override all options.
 
 ```typescript
 new Api({
-    baseUrl?: string;
-    cacheInterval?: number;
-    isCached?: boolean;
-    requestOptions?: RequestInit; // Standard request options for fetch
+    baseUrl: 'http://example.com',
+    cacheInterval: 300, // seconds
+    isCached: true,
+    requestOptions: {}, // Standard request options for fetch
     
     requests: {
         todos: {
-            cacheInterval?: number;
-            isCached?: boolean;
-            cacheId?: string;
-            requestOptions?: RequestInit; // Standard request options for fetch
-            path: string | URL;
-            pathVariables?: Record<string, string | number>;
-            searchParams?: Record<string, string | number>;
-            zodSchema: SchemaType extends ZodSchema;
+            cacheInterval: 100, // seconds
+            isCached: true,
+            cacheId: 'uniqueId',
+            requestOptions: {}, // Standard request options for fetch
+            path: 'api/todo/:myId',
+            pathVariables: { myId: 1, },
+            searchParams: { filterBy: 'groceries', orderBy: 'name' },
+            zodSchema: {}, // zod schema
         }
     }
 })
 
 api.fetch('todos', {
-    cacheInterval?: number;
-    isCached?: boolean;
-    cacheId?: string;
-    requestOptions?: RequestInit; // Standard request options for fetch
-    pathVariables?: Record<string, string | number>;
-    searchParams?: Record<string, string | number>;
-    zodSchema?: SchemaType extends ZodSchema;
+    cacheInterval: 0, // leaving this undefined, or passing 0 means no cache
+    isCached: false,
+    cacheId: 'uniqueId2',
+    requestOptions: {}, // Standard request options for fetch
+    pathVariables: { myId: 2, },
+    searchParams: { filterBy: 'food', orderBy: 'type' },
+    zodSchema: {}, // zod schema
 })
 ```
 
@@ -100,4 +101,12 @@ api.cacheBust(todos)
 
 await cacheBust(getTodosCacheId)
 ```
+
+## Gotchas'
+
+This library largely depends on native ways of handling URLs. The primary motivation is to make use of browser APIs.
+Because of that there can be a few "gotchas'".
+
+1. The baseUrl property MUST be a base URL. It can not include any additional paths. Added paths will be stripped out. `https://example.com/api` becomes `https://example.com/`. Include things like `/api` in the request path only.
+   2. If you want to override the baseUrl, this can be done via path. `{ path: https://example2.com/api/todo }` will override the default base url `https://example.com/`.
 
