@@ -26,6 +26,6 @@
     "eslint-config-ethang": "^8.2.1",
     "rimraf": "^5.0.1",
     "typescript": "^5.2.2",
-    "vitest": "^0.34.2"
+    "vitest": "^0.34.3"
   }
 }
