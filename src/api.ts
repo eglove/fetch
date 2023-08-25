@@ -136,10 +136,11 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
     // Create final request
     const newRequest = new Request(
       urlObject,
-      merge(this.requestOptions, [
+      merge(
+        this.requestOptions,
         cloneDeep(requestDefaults.requestOptions),
         options?.requestOptions,
-      ]),
+      ),
     );
     const defaultCacheId = `${newRequest.url}${newRequest.method}${
       newRequest.headers.get('Vary') ?? ''
