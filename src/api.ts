@@ -116,7 +116,9 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
 
     if (!isNil(pathVariables) && !isEmpty(pathVariables)) {
       for (const [key, value] of Object.entries(pathVariables)) {
-        url = url.replace(`:${key}`, String(value));
+        if (value !== undefined) {
+          url = url.replace(`:${key}`, String(value));
+        }
       }
     }
 
