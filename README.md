@@ -1,4 +1,4 @@
-# Vanilla JS Fetcher and API Builder with Client Side Cache
+# API Builder and Fetch Library with Client Side Cache
 
 Centralize your API, keep it flexible to escape hatches. Prevent refetching the same data to the browser based on a cache interval. (Cache does not work on a server.)
 
