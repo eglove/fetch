@@ -32,7 +32,6 @@ Cache for request will expire on an interval, and pull from cache until that tim
 
 ```typescript
 const { data, isSuccess, errors } = await api.fetch('todos', {
-    isCached: true,
     cacheInterval: 30,
     pathVariables: {
         id: 1,
@@ -50,13 +49,11 @@ duplicate values, but does not completely override all options.
 new Api({
     baseUrl: 'http://example.com',
     cacheInterval: 300, // seconds
-    isCached: true,
     requestOptions: {}, // Standard request options for fetch
     
     requests: {
         todos: {
             cacheInterval: 100, // seconds
-            isCached: true,
             cacheId: 'uniqueId',
             requestOptions: {}, // Standard request options for fetch
             path: 'api/todo/:myId',
@@ -69,7 +66,6 @@ new Api({
 
 api.fetch('todos', {
     cacheInterval: 0, // leaving this undefined, or passing 0 means no cache
-    isCached: false,
     cacheId: 'uniqueId2',
     requestOptions: {}, // Standard request options for fetch
     pathVariables: { myId: 2, },

@@ -10,14 +10,12 @@ describe('api setup', () => {
     const testApi = new Api({
       baseUrl: 'http://example.com',
       cacheInterval: 100,
-      isCached: false,
       requestOptions: {
         method: 'GET',
       },
       requests: {
         search: {
           cacheInterval: 300,
-          isCached: true,
           path: 'search/:id/:name',
           pathVariables: {
             id: 2,
@@ -38,7 +36,6 @@ describe('api setup', () => {
     const api = testApi as unknown;
     expect(api.baseUrl).toBe('http://example.com');
     expect(api.cacheInterval).toBe(100);
-    expect(api.isCached).toBe(false);
     expect(api.requestOptions).toStrictEqual({
       method: 'GET',
     });

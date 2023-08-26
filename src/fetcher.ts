@@ -2,19 +2,16 @@ import { DB_NAME, getRequestDatabase, isExpired, RequestMeta } from './util';
 
 type FetcherOptions = {
   cacheInterval?: number;
-  isCached?: boolean;
   request: Request;
 };
 
 export const fetcher = async ({
   request,
-  isCached = false,
   cacheInterval,
 }: FetcherOptions): Promise<Response | undefined> => {
   if (
     // eslint-disable-next-line no-undef
     typeof window === 'undefined' ||
-    !isCached ||
     cacheInterval === undefined ||
     cacheInterval <= 0
   ) {

@@ -11,7 +11,6 @@ type ApiOptions<RequestType extends Record<string, CreateRequest<ZodType>>> =
 type GlobalOptions = {
   baseUrl?: string;
   cacheInterval?: number;
-  isCached?: boolean;
   requestOptions?: RequestInit;
 };
 
@@ -46,7 +45,6 @@ type RequestMap<RequestType, SchemaType extends ZodType> = Map<
 export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
   private readonly requestOptions?: RequestInit;
   private readonly requests: RequestMap<RequestType, ZodType> = new Map();
-  private readonly isCached?: boolean = false;
   private readonly cacheInterval?: number;
   private readonly baseUrl?: string;
   public readonly madeRequests: Map<string, Request> = new Map();
@@ -55,12 +53,10 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
     requestOptions,
     baseUrl,
     requests,
-    isCached,
     cacheInterval,
   }: ApiOptions<RequestType>) {
     this.baseUrl = baseUrl;
     this.cacheInterval = cacheInterval;
-    this.isCached = isCached;
     this.requestOptions = requestOptions;
 
     for (const requestInitKey of Object.keys(requests)) {
@@ -149,8 +145,6 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
           options?.cacheInterval ??
           requestDefaults.cacheInterval ??
           this.cacheInterval,
-        isCached:
-          options?.isCached ?? requestDefaults.isCached ?? this.isCached,
         request: newRequest,
       });
 
