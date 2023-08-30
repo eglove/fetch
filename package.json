@@ -25,7 +25,7 @@
     "@types/lodash": "^4.14.197",
     "@types/node": "^20.5.7",
     "esbuild": "^0.19.2",
-    "eslint-config-ethang": "^9.0.0",
+    "eslint-config-ethang": "^10.0.1",
     "rimraf": "^5.0.1",
     "typescript": "^5.2.2",
     "vitest": "^0.34.3"
