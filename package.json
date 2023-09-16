@@ -23,9 +23,9 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.198",
-    "@types/node": "^20.6.0",
+    "@types/node": "^20.6.2",
     "esbuild": "^0.19.3",
-    "eslint-config-ethang": "^10.0.6",
+    "eslint-config-ethang": "^10.0.7",
     "rimraf": "^5.0.1",
     "typescript": "^5.2.2",
     "vitest": "^0.34.4"
