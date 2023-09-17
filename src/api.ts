@@ -1,5 +1,5 @@
 import { cloneDeep, isEmpty, isNil, merge } from 'lodash';
-import { z, ZodType } from 'zod';
+import type { z, ZodType } from 'zod';
 
 import { cacheBust, fetcher, getCachedResponse } from './fetcher';
 
@@ -49,7 +49,7 @@ export class Api<RequestType extends Record<string, CreateRequest<ZodType>>> {
   private readonly baseUrl?: string;
   public readonly madeRequests: Map<string, Request> = new Map();
 
-  constructor({
+  public constructor({
     requestOptions,
     baseUrl,
     requests,
