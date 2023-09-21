@@ -20,6 +20,7 @@ await esbuild({
   platform: 'browser',
   sourcemap: true,
   target: 'esnext',
+  outExtension: {'.js': '.mjs'}
 })
 
 fs.copyFileSync(
