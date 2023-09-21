@@ -1,5 +1,4 @@
 import { rimraf } from 'rimraf'
-import { build as esbuild } from 'esbuild'
 import fs from 'node:fs';
 import { execSync } from 'child_process';
 
@@ -11,20 +10,10 @@ fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 2) + '\n', 'u
 
 await rimraf('dist');
 
-await esbuild({
-  bundle: false,
-  entryPoints: ['src/*.ts'],
-  loader: { '.ts': 'ts' },
-  minify: true,
-  outdir: 'dist',
-  platform: 'browser',
-  sourcemap: true,
-  target: 'esnext',
-})
+// fs.copyFileSync(
+//   'package.json',
+//   'dist/package.json',
+// )
 
-fs.copyFileSync(
-  'package.json',
-  'dist/package.json',
-)
-
-execSync('tsc --project tsconfig.build.json && cd dist && npm publish --access public && cd ..')
+execSync('tsc --project tsconfig.build.json')
+execSync('cd dist && npm publish --access public && cd ..')

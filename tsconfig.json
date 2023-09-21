@@ -1,6 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Create React App",
   "compilerOptions": {
     "outDir": "dist",
     "declaration": true,
