@@ -10,10 +10,11 @@ fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 2) + '\n', 'u
 
 await rimraf('dist');
 
-// fs.copyFileSync(
-//   'package.json',
-//   'dist/package.json',
-// )
-
 execSync('tsc --project tsconfig.build.json')
+
+fs.copyFileSync(
+  'package.json',
+  'dist/package.json',
+)
+
 execSync('cd dist && npm publish --access public && cd ..')
