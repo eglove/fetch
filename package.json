@@ -23,11 +23,11 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.199",
-    "@types/node": "^20.7.0",
-    "esbuild": "^0.19.3",
-    "eslint-config-ethang": "^11.0.2",
-    "rimraf": "^5.0.4",
+    "@types/node": "^20.7.1",
+    "esbuild": "^0.19.4",
+    "eslint-config-ethang": "^11.1.6",
+    "rimraf": "^5.0.5",
     "typescript": "^5.2.2",
-    "vitest": "^0.34.5"
+    "vitest": "^0.34.6"
   }
 }
