@@ -1,4 +1,5 @@
-import { DB_NAME, getRequestDatabase, isExpired, RequestMeta } from './util';
+import type { RequestMeta } from './util';
+import { DB_NAME, getRequestDatabase, isExpired } from './util';
 
 type FetcherOptions = {
   cacheInterval?: number;
