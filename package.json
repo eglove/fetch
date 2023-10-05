@@ -19,7 +19,7 @@
   "dependencies": {
     "idb": "^7.1.1",
     "lodash": "^4.17.21",
-    "zod": "^3.22.3"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.199",
