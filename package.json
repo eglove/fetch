@@ -22,10 +22,10 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.199",
-    "@types/node": "^20.8.6",
-    "esbuild": "^0.19.4",
-    "eslint-config-ethang": "^11.2.10",
+    "@types/lodash": "^4.14.200",
+    "@types/node": "^20.8.7",
+    "esbuild": "^0.19.5",
+    "eslint-config-ethang": "^11.2.11",
     "rimraf": "^5.0.5",
     "typescript": "^5.2.2",
     "vitest": "^0.34.6"
