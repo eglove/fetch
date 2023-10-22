@@ -1,4 +1,5 @@
-import { IDBPDatabase, openDB } from 'idb';
+import type { IDBPDatabase } from 'idb';
+import { openDB } from 'idb';
 
 export type RequestMeta = {
   expires: Date;

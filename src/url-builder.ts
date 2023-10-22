@@ -7,7 +7,7 @@ class UrlBuilder {
   public url: URL;
   public searchParameters: URLSearchParams;
 
-  constructor(
+  public constructor(
     private readonly urlString: string,
     private readonly config?: UrlConfig,
   ) {

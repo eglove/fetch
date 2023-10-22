@@ -13,16 +13,14 @@
   "license": "ISC",
   "peerDependencies": {
     "idb": "^7.1.1",
-    "lodash": "^4.17.21",
     "zod": "^3.22.4"
   },
   "dependencies": {
+    "@ethang/util": "^1.5.0",
     "idb": "^7.1.1",
-    "lodash": "^4.17.21",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.200",
     "@types/node": "^20.8.7",
     "esbuild": "^0.19.5",
     "eslint-config-ethang": "^11.2.15",
