@@ -1,6 +1,6 @@
 {
   "name": "@ethang/fetch",
-  "version": "3.6.35",
+  "version": "4.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
