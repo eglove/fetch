@@ -30,9 +30,10 @@ class UrlBuilder {
 
   private buildUrl(): URL {
     if (!isEmpty(this.pathVariables)) {
-      for (const pathVariable of this.pathVariables) {
-        this._url = new URL(String(pathVariable), this._url);
-      }
+      const urlString = this._url.toString();
+      this._url = urlString.endsWith('/')
+        ? new URL(`${urlString}${this.pathVariables.join('/')}`)
+        : new URL(`${urlString}/${this.pathVariables.join('/')}`);
     }
 
     if (this.searchParameters.size > 0) {
