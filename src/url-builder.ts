@@ -1,28 +1,47 @@
+import { isEmpty } from '@ethang/util/data';
+
 export type UrlConfig = {
+  pathVariables?: Array<string | number>;
   searchParams?: string | Record<string, unknown>;
   urlBase?: string | URL;
 };
 
 class UrlBuilder {
-  public url: URL;
-  public searchParameters: URLSearchParams;
+  private _url: URL;
+  private readonly searchParameters: URLSearchParams;
+  private readonly pathVariables: Array<string | number>;
 
   public constructor(
     private readonly urlString: string,
     private readonly config?: UrlConfig,
   ) {
-    this.url = new URL(urlString, config?.urlBase);
+    this._url = new URL(urlString, config?.urlBase);
+    this.pathVariables = config?.pathVariables ?? [];
     this.searchParameters = this.buildSearchParameters(config?.searchParams);
   }
 
+  public get url(): URL {
+    return this.buildUrl();
+  }
+
   public toString(): string {
-    if (this.searchParameters.size > 0) {
-      for (const [key, value] of Object.entries(this.searchParameters)) {
-        this.url.searchParams.append(key, value);
+    return this.buildUrl().toString();
+  }
+
+  private buildUrl(): URL {
+    if (!isEmpty(this.pathVariables)) {
+      for (const pathVariable of this.pathVariables) {
+        this._url = new URL(String(pathVariable), this._url);
       }
     }
 
-    return this.url.toString();
+    if (this.searchParameters.size > 0) {
+      for (const [key, value] of Object.entries(this.searchParameters)) {
+        this._url.searchParams.append(key, value);
+      }
+    }
+
+    return this._url;
   }
 
   private buildSearchParameters(

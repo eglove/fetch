@@ -1,75 +1,118 @@
+import { isNil, tryCatchAsync } from '@ethang/util/data';
+import type { z, ZodSchema } from 'zod';
+
 import { fetcher } from './fetcher';
 import { urlBuilder } from './url-builder';
 
-type RequestOptions = {
-  defaultCacheInterval?: number;
-  defaultRequestOptions?: RequestInit;
-  url: string;
+type RequestConfig = {
+  bodySchema?: ZodSchema;
+  path: string;
 };
 
-type ApiOptions<RequestType extends Record<string, RequestOptions>> = {
+type ApiConfig<T extends Record<string, Readonly<RequestConfig>>> = {
   baseUrl: string;
-  defaultCacheInterval?: number;
-  defaultRequestOptions?: RequestInit;
-  requests: RequestType;
+  cacheInterval?: number;
+  requests: T;
 };
 
-type GetRequestOptions = {
-  pathVariables?: string;
-  requestOptions?: RequestInit;
+type ExtraRequestOptions = {
+  pathVariables?: Array<string | number>;
   searchParams?: Record<string, string | number | undefined>;
 };
 
-export class Api<RequestType extends Record<string, RequestOptions>> {
-  private readonly baseUrl: string;
-  private readonly defaultCacheInterval: number;
-  private readonly defaultRequestOptions?: RequestInit;
-  private readonly requests: RequestType;
+type RequestFunction = (
+  requestInit?: RequestInit,
+  options?: ExtraRequestOptions,
+) => Request;
 
-  public constructor({
-    baseUrl,
-    defaultCacheInterval = 0,
-    defaultRequestOptions,
-    requests,
-  }: ApiOptions<RequestType>) {
-    this.baseUrl = baseUrl;
-    this.defaultCacheInterval = defaultCacheInterval;
-    this.defaultRequestOptions = defaultRequestOptions;
-    this.requests = requests;
+type FetchOptions = ExtraRequestOptions & { cacheInterval?: number };
+
+type FetchFunction = (
+  requestInit?: RequestInit,
+  options?: FetchOptions,
+) => Promise<Response | undefined>;
+
+class Api<T extends Record<string, Readonly<RequestConfig>>> {
+  private readonly config: ApiConfig<T>;
+  private readonly globalCacheInterval: number;
+  // @ts-expect-error generated in constructor
+  public readonly request: {
+    [K in keyof T]: RequestFunction;
+  } = {};
+
+  // @ts-expect-error generated in constructor
+  public readonly fetch: {
+    [K in keyof T]: FetchFunction;
+  } = {};
+
+  public constructor(config: ApiConfig<T>) {
+    this.config = config;
+    this.globalCacheInterval = config.cacheInterval ?? 0;
+
+    for (const key of Object.keys(this.config.requests)) {
+      this.request[key as keyof T] = this.generateRequestMethod(key);
+      this.fetch[key as keyof T] = this.generateFetchMethod(key);
+    }
   }
 
-  public getRequest<NameType extends keyof RequestType>(
-    name: NameType,
-    options?: GetRequestOptions,
-  ): Request {
-    const request = this.requests[name];
-
-    const url = urlBuilder(options?.pathVariables ?? '', {
-      searchParams: options?.searchParams,
-      urlBase: this.baseUrl,
+  public async parseJson<Z extends ZodSchema>(
+    response: Response,
+    responseSchema: Z,
+  ): Promise<z.output<typeof responseSchema> | undefined> {
+    const jsonResult = await tryCatchAsync(() => {
+      return response.json();
     });
 
-    const requestOptions = {
-      ...this.defaultRequestOptions,
-      ...request?.defaultRequestOptions,
-      ...options?.requestOptions,
+    if (!jsonResult.isSuccess) {
+      return undefined;
+    }
+
+    const dataResult = responseSchema.safeParse(jsonResult.data);
+
+    if (!dataResult.success) {
+      return undefined;
+    }
+
+    return dataResult.data;
+  }
+
+  private generateFetchMethod(key: string): FetchFunction {
+    return (requestOptions?: RequestInit, options?: FetchOptions) => {
+      return fetcher({
+        cacheInterval: options?.cacheInterval ?? this.globalCacheInterval,
+        request: this.request[key](requestOptions, options),
+      });
     };
-
-    return new Request(url.url, requestOptions);
   }
 
-  public async fetch<NameType extends keyof RequestType>(
-    name: NameType,
-    options?: GetRequestOptions & { cacheInterval?: number },
-  ): Promise<Response | undefined> {
-    const request = this.requests[name];
+  private generateRequestMethod(key: string): RequestFunction {
+    const apiEndpointConfig = this.config.requests[key];
 
-    return fetcher({
-      cacheInterval:
-        options?.cacheInterval ??
-        request.defaultCacheInterval ??
-        this.defaultCacheInterval,
-      request: this.getRequest(name, options),
-    });
+    if (isNil(apiEndpointConfig)) {
+      throw new Error(`API endpoint configuration for ${key} was not found.`);
+    }
+
+    return (
+      requestOptions?: RequestInit,
+      options?: ExtraRequestOptions,
+    ): Request => {
+      if (
+        !isNil(apiEndpointConfig.bodySchema) &&
+        requestOptions?.body !== undefined
+      ) {
+        apiEndpointConfig.bodySchema.parse(requestOptions.body);
+      }
+
+      const builder = urlBuilder(apiEndpointConfig.path, {
+        pathVariables: options?.pathVariables,
+        searchParams: options?.searchParams,
+        urlBase: this.config.baseUrl,
+      });
+
+      return new Request(builder.url, {
+        body: JSON.stringify(requestOptions?.body),
+        ...requestOptions,
+      });
+    };
   }
 }

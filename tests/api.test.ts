@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { describe, expect, test, vi } from 'vitest';
 
-import { Api } from '../src/api';
+import { Api } from '../dist/api';
 
 describe('api setup', () => {
   test('api initializes correctly', () => {
@@ -23,14 +23,13 @@ describe('api setup', () => {
       },
     });
 
-    const api = testApi as unknown;
-    expect(api.baseUrl).toBe('http://example.com');
-    expect(api.defaultCacheInterval).toBe(100);
-    expect(api.defaultRequestOptions).toStrictEqual({
+    expect(testApi.baseUrl).toBe('http://example.com');
+    expect(testApi.defaultCacheInterval).toBe(100);
+    expect(testApi.defaultRequestOptions).toStrictEqual({
       method: 'GET',
     });
-    expect(api.requests.search.defaultCacheInterval).toBe(300);
-    expect(api.requests.search.url).toBe('search');
+    expect(testApi.requests.search.defaultCacheInterval).toBe(300);
+    expect(testApi.requests.search.url).toBe('search');
   });
 
   test('fetch works', async () => {
