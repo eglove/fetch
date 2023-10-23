@@ -32,7 +32,7 @@ type FetchFunction = (
   options?: FetchOptions,
 ) => Promise<Response | undefined>;
 
-class Api<T extends Record<string, Readonly<RequestConfig>>> {
+export class Api<T extends Record<string, Readonly<RequestConfig>>> {
   private readonly config: ApiConfig<T>;
   private readonly globalCacheInterval: number;
   // @ts-expect-error generated in constructor
