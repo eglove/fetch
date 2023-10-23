@@ -110,7 +110,6 @@ export class Api<T extends Record<string, Readonly<RequestConfig>>> {
       return new Request(builder.url, {
         ...this.config.defaultRequestInit,
         ...requestConfig.defaultRequestInit,
-        body: JSON.stringify(requestOptions?.body),
         ...requestOptions,
       });
     };
