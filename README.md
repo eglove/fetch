@@ -53,6 +53,8 @@ export const api = new Api({
       bodySchema: z.string(), // zod schema to validate POST body
       defaultRequestInit: {}, // Standard request options for fetch
       path: 'todos',
+      pathVariableLength: 1, // Validate that the correct number of path variables are given
+      searchParamSchema: z.string(), // zod schema to validate searchParms
    },
   },
 });

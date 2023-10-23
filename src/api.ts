@@ -8,6 +8,8 @@ type RequestConfig = {
   bodySchema?: ZodSchema;
   defaultRequestInit?: RequestInit;
   path: string;
+  pathVariableLength?: number;
+  searchParamSchema?: ZodSchema;
 };
 
 type ApiConfig<T extends Record<string, Readonly<RequestConfig>>> = {
@@ -85,11 +87,19 @@ export class Api<T extends Record<string, Readonly<RequestConfig>>> {
     const requestConfig = this.config.requests[key];
 
     return (options?: RequestOptions): Request => {
+      if (!isNil(requestConfig.bodySchema)) {
+        requestConfig.bodySchema.parse(options?.requestInit?.body);
+      }
+
+      if (!isNil(requestConfig.searchParamSchema)) {
+        requestConfig.searchParamSchema.parse(options?.searchParams);
+      }
+
       if (
-        !isNil(requestConfig.bodySchema) &&
-        options?.requestInit?.body !== undefined
+        !isNil(requestConfig.pathVariableLength) &&
+        options?.pathVariables?.length !== requestConfig.pathVariableLength
       ) {
-        requestConfig.bodySchema.parse(options.requestInit.body);
+        throw new Error('Invalid number of path variables');
       }
 
       const builder = urlBuilder(requestConfig.path, {
