@@ -17,22 +17,16 @@ type ApiConfig<T extends Record<string, Readonly<RequestConfig>>> = {
   requests: T;
 };
 
-type ExtraRequestOptions = {
+type RequestOptions = {
   pathVariables?: Array<string | number>;
+  requestInit?: RequestInit;
   searchParams?: Record<string, string | number | undefined>;
 };
 
-type RequestFunction = (
-  requestInit?: RequestInit,
-  options?: ExtraRequestOptions,
-) => Request;
+type RequestFunction = (options?: RequestOptions) => Request;
 
-type FetchOptions = ExtraRequestOptions & { cacheInterval?: number };
-
-type FetchFunction = (
-  requestInit?: RequestInit,
-  options?: FetchOptions,
-) => Promise<Response | undefined>;
+type FetchOptions = RequestOptions & { cacheInterval?: number };
+type FetchFunction = (options?: FetchOptions) => Promise<Response | undefined>;
 
 export class Api<T extends Record<string, Readonly<RequestConfig>>> {
   private readonly config: ApiConfig<T>;
@@ -79,10 +73,10 @@ export class Api<T extends Record<string, Readonly<RequestConfig>>> {
   }
 
   private generateFetchMethod(key: string): FetchFunction {
-    return (requestOptions?: RequestInit, options?: FetchOptions) => {
+    return (options?: FetchOptions) => {
       return fetcher({
         cacheInterval: options?.cacheInterval ?? this.globalCacheInterval,
-        request: this.request[key](requestOptions, options),
+        request: this.request[key](options),
       });
     };
   }
@@ -90,15 +84,12 @@ export class Api<T extends Record<string, Readonly<RequestConfig>>> {
   private generateRequestMethod(key: string): RequestFunction {
     const requestConfig = this.config.requests[key];
 
-    return (
-      requestOptions?: RequestInit,
-      options?: ExtraRequestOptions,
-    ): Request => {
+    return (options?: RequestOptions): Request => {
       if (
         !isNil(requestConfig.bodySchema) &&
-        requestOptions?.body !== undefined
+        options?.requestInit?.body !== undefined
       ) {
-        requestConfig.bodySchema.parse(requestOptions.body);
+        requestConfig.bodySchema.parse(options.requestInit.body);
       }
 
       const builder = urlBuilder(requestConfig.path, {
@@ -110,7 +101,7 @@ export class Api<T extends Record<string, Readonly<RequestConfig>>> {
       return new Request(builder.url, {
         ...this.config.defaultRequestInit,
         ...requestConfig.defaultRequestInit,
-        ...requestOptions,
+        ...options?.requestInit,
       });
     };
   }
