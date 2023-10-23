@@ -43,27 +43,29 @@ options different from what is set up in the global object. Keep in mind that th
 duplicate values, but does not completely override all options.
 
 ```typescript
+import { Api } from '@ethang/fetch/api';
+
 export const api = new Api({
-   baseUrl: 'https://jsonplaceholder.typicode.com',
-   cacheInterval: 300, // seconds
-   requests: {
-      todos: {
-         bodySchema: z.string(), // zod schema to validate POST body
-         defaultRequestInit: {}, // Standard request options for fetch
-         path: 'todos',
-      },
+  baseUrl: 'https://jsonplaceholder.typicode.com',
+  cacheInterval: 300, // seconds
+  requests: {
+    todos: {
+      bodySchema: z.string(), // zod schema to validate POST body
+      defaultRequestInit: {}, // Standard request options for fetch
+      path: 'todos',
    },
+  },
 });
 
 const response = await api.fetch.todos({
-   cacheInterval: 0, // leaving this undefined, or passing 0 skips cache
-   pathVariables: [1, 'myTodo'], // Appends /1/myTodo to URL pathname
-   requestInit: {}, // Standard request options for fetch
-   searchParams: { filterBy: 'food', orderBy: 'type' }, // ?filterBy=food&orderBy=type
+  cacheInterval: 0, // leaving this undefined, or passing 0 skips cache
+  pathVariables: [1, 'myTodo'], // Appends /1/myTodo to URL pathname
+  requestInit: {}, // Standard request options for fetch
+  searchParams: { filterBy: 'food', orderBy: 'type' }, // ?filterBy=food&orderBy=type
 });
 
 if (response) {
-   const data = await api.parseJson(response, zodSchema);
+  const data = await api.parseJson(response, zodSchema);
 }
 ```
 
@@ -72,7 +74,7 @@ if (response) {
 Return cache only. Requests are considered unique by URL, Vary Header, and HTTP method.
 
 ```typescript
-import { getCachedResponse } from "@ethang/fetch/fetcher";
+import { getCachedResponse } from '@ethang/fetch/fetcher';
 
 const request = api.request.todos();
 const response = await getCachedResponse(request);
