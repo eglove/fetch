@@ -72,7 +72,7 @@ if (response) {
 Return cache only. Requests are considered unique by URL, Vary Header, and HTTP method.
 
 ```typescript
-import {getCachedResponse } from "@ethang/fetch/fetcher";
+import { getCachedResponse } from "@ethang/fetch/fetcher";
 
 const request = api.request.todos();
 const response = await getCachedResponse(request);
