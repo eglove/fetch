@@ -6,12 +6,14 @@ import { urlBuilder } from './url-builder';
 
 type RequestConfig = {
   bodySchema?: ZodSchema;
+  defaultRequestInit?: RequestInit;
   path: string;
 };
 
 type ApiConfig<T extends Record<string, Readonly<RequestConfig>>> = {
   baseUrl: string;
   cacheInterval?: number;
+  defaultRequestInit?: RequestInit;
   requests: T;
 };
 
@@ -86,30 +88,28 @@ export class Api<T extends Record<string, Readonly<RequestConfig>>> {
   }
 
   private generateRequestMethod(key: string): RequestFunction {
-    const apiEndpointConfig = this.config.requests[key];
-
-    if (isNil(apiEndpointConfig)) {
-      throw new Error(`API endpoint configuration for ${key} was not found.`);
-    }
+    const requestConfig = this.config.requests[key];
 
     return (
       requestOptions?: RequestInit,
       options?: ExtraRequestOptions,
     ): Request => {
       if (
-        !isNil(apiEndpointConfig.bodySchema) &&
+        !isNil(requestConfig.bodySchema) &&
         requestOptions?.body !== undefined
       ) {
-        apiEndpointConfig.bodySchema.parse(requestOptions.body);
+        requestConfig.bodySchema.parse(requestOptions.body);
       }
 
-      const builder = urlBuilder(apiEndpointConfig.path, {
+      const builder = urlBuilder(requestConfig.path, {
         pathVariables: options?.pathVariables,
         searchParams: options?.searchParams,
         urlBase: this.config.baseUrl,
       });
 
       return new Request(builder.url, {
+        ...this.config.defaultRequestInit,
+        ...requestConfig.defaultRequestInit,
         body: JSON.stringify(requestOptions?.body),
         ...requestOptions,
       });
