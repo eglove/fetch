@@ -1,4 +1,5 @@
 import { isNil, tryCatchAsync } from '@ethang/util/data';
+import { deepMerge } from '@ethang/util/object';
 import type { z, ZodSchema } from 'zod';
 
 import { fetcher } from './fetcher';
@@ -108,11 +109,14 @@ export class Api<T extends Record<string, Readonly<RequestConfig>>> {
         urlBase: this.config.baseUrl,
       });
 
-      return new Request(builder.url, {
-        ...this.config.defaultRequestInit,
-        ...requestConfig.defaultRequestInit,
-        ...options?.requestInit,
-      });
+      const requestInit = deepMerge(
+        {},
+        this.config.defaultRequestInit,
+        requestConfig.defaultRequestInit,
+        options?.requestInit,
+      );
+
+      return new Request(builder.url, requestInit);
     };
   }
 }
