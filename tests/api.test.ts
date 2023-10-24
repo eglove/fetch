@@ -18,18 +18,18 @@ describe('api setup', () => {
           defaultRequestOptions: {
             method: 'POST',
           },
-          url: 'search',
+          path: 'search',
         },
       },
     });
 
-    expect(testApi.baseUrl).toBe('http://example.com');
-    expect(testApi.defaultCacheInterval).toBe(100);
-    expect(testApi.defaultRequestOptions).toStrictEqual({
+    expect(testApi.config.baseUrl).toBe('http://example.com');
+    expect(testApi.config.defaultCacheInterval).toBe(100);
+    expect(testApi.config.defaultRequestOptions).toStrictEqual({
       method: 'GET',
     });
-    expect(testApi.requests.search.defaultCacheInterval).toBe(300);
-    expect(testApi.requests.search.url).toBe('search');
+    const request = testApi.request.search();
+    expect(request.url).toBe('http://example.com/search');
   });
 
   test('fetch works', async () => {
@@ -56,10 +56,11 @@ describe('api setup', () => {
 
     // eslint-disable-next-line functional/immutable-data
     globalThis.fetch = mockFetch;
-    const response = await todosApi.fetch('todos', {
-      pathVariables: '1',
+    const response = await todosApi.fetch.todos({
+      pathVariables: ['1'],
       searchParams: { hey: undefined },
     });
+
     const data = await response?.json();
     expect(mockFetch).toHaveBeenCalledOnce();
     expect(data).toStrictEqual(expectedResult);

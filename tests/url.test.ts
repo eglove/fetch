@@ -35,6 +35,34 @@ describe('url', () => {
       }).toString(),
     ).toBe('https://developer.mozilla.org/en-US/docs');
   });
+
+  test('gets URL object', () => {
+    const builder = urlBuilder('https://example.com/');
+
+    expect(builder.url.hostname).toBe('example.com');
+    expect(builder.url.pathname).toBe('/');
+  });
+
+  test.each([['https://example.com'], ['https://example.com/']])(
+    'appends path variables',
+    baseUrl => {
+      const builder = urlBuilder(baseUrl, {
+        pathVariables: ['one', 2, undefined, '5'],
+      });
+
+      expect(builder.toString()).toBe('https://example.com/one/2/5/');
+    },
+  );
+
+  test('appends path variables trailing slash is ok', () => {
+    const baseUrl = 'https://example.com/';
+
+    const builder = urlBuilder(baseUrl, {
+      pathVariables: ['one', 2, undefined, '5'],
+    });
+
+    expect(builder.toString()).toBe('https://example.com/one/2/5/');
+  });
 });
 
 describe('searchParameters', () => {
@@ -117,5 +145,16 @@ describe('searchParameters', () => {
 
     expect(searchParameters.get('foo')).toBe('');
     expect(searchParameters.toString()).toBe('foo=&bar=baz');
+  });
+
+  test('adds search parameters when calling toString', () => {
+    const builder = urlBuilder(urlString, {
+      pathVariables: ['one', 2, 3],
+      searchParams: { key: 'value', number: 1 },
+    });
+
+    expect(builder.toString()).toBe(
+      'https://example.com/one/2/3/?key=value&number=1',
+    );
   });
 });

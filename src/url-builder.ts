@@ -9,7 +9,7 @@ export type UrlConfig = {
 class UrlBuilder {
   private _url: URL;
   private readonly searchParameters: URLSearchParams;
-  private readonly pathVariables: Array<string | number>;
+  private readonly pathVariables: Array<string | number | undefined>;
 
   public constructor(
     private readonly urlString: string,
@@ -30,14 +30,19 @@ class UrlBuilder {
 
   private buildUrl(): URL {
     if (!isEmpty(this.pathVariables)) {
-      const urlString = this._url.toString();
-      this._url = urlString.endsWith('/')
-        ? new URL(`${urlString}${this.pathVariables.join('/')}`)
-        : new URL(`${urlString}/${this.pathVariables.join('/')}`);
+      let urlString = this._url.toString();
+
+      for (const pathVariable of this.pathVariables) {
+        if (pathVariable !== undefined) {
+          urlString += `${pathVariable}/`;
+        }
+      }
+
+      this._url = new URL(urlString);
     }
 
     if (this.searchParameters.size > 0) {
-      for (const [key, value] of Object.entries(this.searchParameters)) {
+      for (const [key, value] of this.searchParameters.entries()) {
         this._url.searchParams.append(key, value);
       }
     }
