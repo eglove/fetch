@@ -89,7 +89,13 @@ export class Api<T extends Record<string, Readonly<RequestConfig>>> {
 
     return (options?: RequestOptions): Request => {
       if (!isNil(requestConfig.bodySchema)) {
-        requestConfig.bodySchema.parse(options?.requestInit?.body);
+        const bodyInit = options?.requestInit?.body;
+
+        if (typeof bodyInit === 'string') {
+          requestConfig.bodySchema.parse(JSON.parse(bodyInit));
+        } else {
+          requestConfig.bodySchema.parse(bodyInit);
+        }
       }
 
       if (!isNil(requestConfig.searchParamSchema)) {
