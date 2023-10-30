@@ -17,7 +17,7 @@
     "zod": "^3.22.4"
   },
   "dependencies": {
-    "@ethang/util": "^1.7.5",
+    "@ethang/util": "^1.7.6",
     "idb": "^7.1.1",
     "zod": "^3.22.4"
   },
@@ -25,7 +25,7 @@
     "@types/node": "^20.8.9",
     "@vitest/coverage-v8": "^0.34.6",
     "esbuild": "^0.19.5",
-    "eslint-config-ethang": "^11.2.18",
+    "eslint-config-ethang": "^11.2.19",
     "rimraf": "^5.0.5",
     "typescript": "^5.2.2",
     "vitest": "^0.34.6"
