@@ -17,14 +17,14 @@
     "zod": "^3.22.4"
   },
   "dependencies": {
-    "@ethang/util": "^1.11.2",
+    "@ethang/util": "^1.14.1",
     "idb": "^7.1.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/node": "^20.9.1",
+    "@types/node": "^20.9.2",
     "@vitest/coverage-v8": "^0.34.6",
-    "esbuild": "^0.19.5",
+    "esbuild": "^0.19.6",
     "eslint-config-ethang": "^11.4.13",
     "rimraf": "^5.0.5",
     "typescript": "^5.2.2",
