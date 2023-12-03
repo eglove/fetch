@@ -7,10 +7,10 @@ export default defineConfig({
             all: true,
             reporter: ['text'],
             thresholdAutoUpdate: true,
-            lines: 25.4,
+            lines: 70.28,
             functions: 70,
             branches: 86.95,
-            statements: 25.4,
+            statements: 70.28,
         }
     }
 })
