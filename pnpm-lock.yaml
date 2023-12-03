@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@ethang/util':
-    specifier: ^2.0.17
-    version: 2.0.17
+    specifier: ^2.0.18
+    version: 2.0.18
   idb:
     specifier: ^8.0.0
     version: 8.0.0
@@ -528,8 +528,8 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@ethang/util@2.0.17:
-    resolution: {integrity: sha512-IiVDxdHcRxTEAG/rDmE/V70FjQhxwuP8Rw945ltTx41Tu8EPg73Cjy538fu3ukox1EHOgj1Sv6BWB4Z/a4XT+w==}
+  /@ethang/util@2.0.18:
+    resolution: {integrity: sha512-tUbFgyRbFOSj16H+JhGinquddPhi3IxbMIe4A++F6KRBfQc9N0fCsXMLlfXH5RsvCLa7w0DeeaFtwHpEPa/FXg==}
     dev: false
 
   /@humanwhocodes/config-array@0.11.13:
