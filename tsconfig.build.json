@@ -3,9 +3,14 @@
   "compilerOptions": {
     "outDir": "dist",
     "declaration": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "commonjs",
-    "target": "es2022",
+    "emitDeclarationOnly": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "module": "esnext",
+    "target": "esnext",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -16,7 +21,9 @@
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": true
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }
