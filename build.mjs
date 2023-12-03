@@ -1,20 +1,19 @@
-import { rimraf } from 'rimraf'
-import fs from 'node:fs';
-import { execSync } from 'child_process';
+import { projectBuilder } from '@ethang/project-builder/project-builder.js'
 
-const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-
-packageJson.peerDependencies = packageJson.dependencies;
-
-fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 2) + '\n', 'utf8');
-
-await rimraf('dist');
-
-execSync('tsc --project tsconfig.build.json')
-
-fs.copyFileSync(
-  'package.json',
-  'dist/package.json',
-)
-
-execSync('cd dist && npm publish --access public && cd ..')
+await projectBuilder('fetch', 'master', {
+  preVersionBumpScripts: ['UPDATE', 'PRUNE'],
+  postVersionBumpScripts: ['DEDUPE', 'LINT', 'TEST'],
+  publishDirectory: 'dist',
+  tsConfigOverrides: {
+    include: ['src/**/*'],
+    compilerOptions: {
+      emitDeclarationOnly: true,
+    }
+  },
+  tsupOptions: {
+    format: ['cjs', 'esm'],
+    minify: true,
+    outDir: 'dist',
+    entry: ['src/*'],
+  }
+})
