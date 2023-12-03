@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { describe, expect, test, vi } from 'vitest';
 
-import { Api } from '../dist/api';
+import { Api } from '../src/api';
 
 describe('api setup', () => {
   test('api initializes correctly', () => {

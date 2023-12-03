@@ -2,7 +2,7 @@ import { projectBuilder } from '@ethang/project-builder/project-builder.js'
 
 await projectBuilder('fetch', 'master', {
   preVersionBumpScripts: ['UPDATE', 'PRUNE'],
-  postVersionBumpScripts: ['DEDUPE', 'TEST'],
+  postVersionBumpScripts: ['DEDUPE', 'LINT', 'TEST'],
   publishDirectory: 'dist',
   tsConfigOverrides: {
     include: ['src/**/*'],
