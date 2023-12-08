@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "@ethang/util": "^2.0.22",
+    "@ethang/util": "^2.0.23",
     "idb": "^8.0.0",
     "zod": "^3.22.4"
   },
