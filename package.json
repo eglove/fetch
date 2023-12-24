@@ -27,7 +27,7 @@
     "@types/node": "^20.10.5",
     "@vitest/coverage-v8": "^1.1.0",
     "esbuild": "^0.19.10",
-    "eslint-config-ethang": "^11.7.0",
+    "eslint-config-ethang": "^11.7.1",
     "rimraf": "^5.0.5",
     "typescript": "^5.3.3",
     "vitest": "^1.1.0"
