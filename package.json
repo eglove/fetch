@@ -23,11 +23,11 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@ethang/project-builder": "^1.1.15",
+    "@ethang/project-builder": "^1.1.16",
     "@types/node": "^20.10.5",
     "@vitest/coverage-v8": "^1.1.0",
     "esbuild": "^0.19.10",
-    "eslint-config-ethang": "^11.7.2",
+    "eslint-config-ethang": "^11.7.3",
     "rimraf": "^5.0.5",
     "typescript": "^5.3.3",
     "vitest": "^1.1.0"
